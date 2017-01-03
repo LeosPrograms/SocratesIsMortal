@@ -1,0 +1,271 @@
+<script type="text/javascript">
+//testing validity code
+var known_array = [['4576', true]]
+var conclusion = []
+var compacted_code = []
+var verdict = []
+var prevent_save = false
+
+var to_boolean = function(string) {
+  if (string == 'true') { return true }
+  else if (string == 'false') {return false}
+  else {return string}
+  ;
+};
+
+var not_a_copy = function(array, item, itemvalue) {
+  var result = true
+  for ( var i = 0, l = array.length; i < l; i++ ) {
+    item_array = array[i]
+    if ((item_array[0]==item) && (item_array[1]==itemvalue)) {
+      result = false
+    }
+  }
+  return result
+};
+
+var analyze = function(premises) {
+
+
+  for (var i = 0; i <= premises.length-1; i++) {
+    var if_this = premises[i][0]
+    var if_value = premises[i][1]
+    var then_this = premises[i][2]
+    var then_value = premises[i][3]
+
+    // alert(i)
+    // alert(premises[i])
+
+    for ( var j = 0, l = known_array.length; j < l; j++ ) {
+      var copy_status = not_a_copy(known_array, then_this, then_value)
+      if ((known_array[j][0]==if_this)&&(known_array[j][1]==if_value)&&(copy_status)) {
+        known_array.push([then_this, then_value])
+      };
+    };
+  };
+};
+
+var assertion = function(premises, conclusion) {
+for (var i = 0; i < known_array.length; i++) {
+  analyze(premises)
+ }; 
+
+  var verdict = []
+
+  for (var i = 0; i < known_array.length; i++) {
+    if (known_array[i][0] == conclusion[0]) { verdict.push(known_array[i]) };
+  };
+
+  $("#verdict").empty();
+  if (verdict.length < 1) {$("#verdict").append('conclusion is undetermined')}
+  else {
+    $("#verdict").append('according to the following premises, the statement "' + verdict[0][0] + '"' + " is " + verdict[0][1]);
+  };
+
+  if ( (verdict=='') || (conclusion=='') || (verdict[0][0]!=conclusion[0]) || (verdict[0][1]!=conclusion[1]) ) {
+    prevent_save=true
+  }
+  else {
+    prevent_save=false
+  };
+};
+//end of testing validity code
+
+//on page load
+$(document).ready(function() {
+
+if ($('#syllogism_conclusion').val()!="") { var starting_conclusion = JSON.parse($('#syllogism_conclusion').val()); 
+$('#conclusion_1').val(starting_conclusion[0]);
+if (starting_conclusion[1]==true) {conclusion_value="true"};
+if (starting_conclusion[1]==false) {conclusion_value="false"};
+$('#conclusion_2').val(conclusion_value);
+};
+
+if ($('#syllogism_premises').val()!="") { 
+  var starting_premises = JSON.parse($('#syllogism_premises').val());
+
+  for (var i = 0; i < starting_premises.length; i++) {
+    if (starting_premises[i][0]=="4576") {
+      if (starting_premises[i][3]==true) {
+        var select = '<select name="t/f">  <option value="true" selected>is true</option>  <option value="false">is false</option></select>'
+      }
+      else {
+        var select = '<select name="t/f">  <option value="true">is true</option>  <option value="false" selected>is false</option></select>'
+      };
+      $('#syllogisms').append('<div class="known"> the statement <input value = '+ starting_premises[i][2] +'> '+ select +' <button type="button" class="delete">delete</button> </div>')
+    }
+
+    else {
+      if (starting_premises[i][1]==true) {
+        var select1 = '<select name="t/f">  <option value="true" selected>is true</option>  <option value="false">is false</option></select>'
+      }
+      else {
+        var select1 = '<select name="t/f">  <option value="true">is true</option>  <option value="false" selected>is false</option></select>'
+      };
+      if (starting_premises[i][3]==true) {
+        var select2 = '<select name="t/f">  <option value="true" selected>is true</option>  <option value="false">is false</option></select>'
+      }
+      else {
+        var select2 = '<select name="t/f">  <option value="true">is true</option>  <option value="false" selected>is false</option></select>'
+      };
+
+      $('#syllogisms').append(
+     '<div class="ifthen"> if the statement <input value = "'+ starting_premises[i][0] +'"> '+ select1 +'then the statement <input value = "'+ starting_premises[i][2] +'"> '+ select2 +'<button type="button" class="delete">delete</button> </div>'
+      )
+    }
+  };
+};
+//button functionality
+$('.delete').click(function(){
+  parent = $(this).parent()
+  parent.remove()
+});
+
+$('.delete').click(function(){
+    parent = $(this).parent()
+    parent.remove()
+});
+
+$('#add-premise').click(function(){
+  $('#syllogisms').append('<div class="ifthen"> if the statement <input> <select name="t/f">  <option value="true">is true</option>  <option value="false">is false</option></select> then the statement <input> <select name="t/f">  <option value="true">is true</option>  <option value="false">is false</option></select> <button type="button" class="delete">delete</button> </div>')
+  $('.delete').click(function(){
+    parent = $(this).parent()
+    parent.remove()
+  });
+});
+
+$('#add-known').click(function(){
+  $('#syllogisms').append('<div class="known"> the statement <input> <select name="t/f">  <option value="true">is true</option>  <option value="false">is false</option></select> <button type="button" class="delete">delete</button> </div>')
+  $('.delete').click(function(){
+    parent = $(this).parent()
+    parent.remove()
+  });
+});
+
+var premise = []
+var compile = function() {
+  compacted_code = [];
+
+  $( "#syllogisms > div > input" ).each(function() {
+    if (!$( this ).val()) {event.preventDefault()}
+  });
+
+
+  $( "#syllogisms > div" ).each(function() {
+
+    premise = [];
+    if ($(this).hasClass('ifthen')) { //add to premises
+      var inputs = $(this).find("input, select");
+
+      inputs.each(function() {
+        premise.push(to_boolean($( this ).val()));
+      });
+    }
+    else if ($(this).hasClass('known')) { //add to known
+      var inputs = $(this).find("input, select");
+      premise.push("4576");
+      premise.push(true);
+      inputs.each(function() {
+        premise.push(to_boolean($( this ).val()));
+      });
+    }
+
+    compacted_code.push(premise)
+
+  });
+
+  var json_compacted = JSON.stringify(compacted_code);
+  $("#syllogism_premises").val(json_compacted);
+};
+
+var analyze_button = function() {
+  compile();
+  var conclusion = [$('#conclusion_1').val(), to_boolean($('#conclusion_2').val())]
+  var json_conclusion = JSON.stringify(conclusion);
+  $("#syllogism_conclusion").val(json_conclusion);
+  assertion(compacted_code, conclusion);
+};
+
+$('#analyze').click(function(){ //when 'analyze' is clicked
+  analyze_button()
+});
+
+$('.actions').click(function(){ 
+  compile();
+  if (!$('#syllogism_title').val()) { $('#syllogism_title').val('untitled') }; 
+  if (!$('#syllogism_author').val()) { $('#syllogism_author').val('anonymous') }; 
+  if (!$('#syllogism_conclusion').val()) { event.preventDefault() }; 
+
+  analyze_button()
+  if (prevent_save==true) {event.preventDefault()}; 
+
+}); //upon form submission
+
+})
+</script>
+
+<!-- rails code -->
+<%= form_for(syllogism) do |f| %>
+  <% if syllogism.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(syllogism.errors.count, "error") %> prohibited this syllogism from being saved:</h2>
+
+      <ul>
+      <% syllogism.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %>
+    title: <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :author %>
+    author: <%= f.text_field :author %>
+  </div>
+
+  <div class="field">
+    <%= f.label :known %>
+    <%= f.text_field :known %>
+  </div>
+
+  <div class="field">
+    <%= f.label :premises %>
+    <%= f.text_field :premises %>
+  </div>
+
+  <div class="field">
+    <%= f.label :conclusion %>
+    <%= f.text_field :conclusion %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<!-- rails code ends -->
+
+<div><p id="verdict"></p></div>
+
+<form id='syllogisms' charset="utf-8">
+
+</form>
+
+<button id='add-known'>new standalone premise</button>
+<button id='add-premise'>new if/then premise</button>
+
+<br>conclusion: <input id='conclusion_1'>
+      <select id='conclusion_2' name="t/f">
+        <option value="true">is true</option>
+        <option value="false">is false</option>
+      </select><br>
+<!-- <button id='add-everyis'>new (every _ is _ )</button>
+ -->
+
+<button id='analyze'>analyze validity</button><br>
+
+<p>note: to save a syllogism, make sure your argument is valid, and that there are no empty premises</p>

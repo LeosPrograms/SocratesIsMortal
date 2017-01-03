@@ -1,0 +1,2 @@
+class Syllogism < ApplicationRecord
+end

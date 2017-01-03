@@ -1,0 +1,51 @@
+// Place all the styles related to the Syllogisms controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+div, button, select {
+	margin: 5px;
+}
+
+#syllogism_known, #syllogism_premises, #syllogism_conclusion, label {
+	display: none;
+}
+
+/*.edit_syllogism {
+	display: none;
+}*/
+
+html {
+	text-align: center;
+}
+
+#center-table {
+	margin: auto;
+	padding-top: 20px;
+}
+
+#new_syllogism {
+	text-decoration: none;
+}
+
+a {
+	color: green;
+
+	&:hover {
+		color: black;
+		background-color: white;
+	}
+}
+
+p {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+#author {
+	margin-bottom: 40px;
+}
+
+h4 {
+	margin-top: 26px;
+	margin-bottom: 10px;
+}

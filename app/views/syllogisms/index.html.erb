@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Syllogisms</h1>
+
+
+<%= link_to 'make your argument', new_syllogism_path, :id => "new_syllogism" %>
+
+<table id='center-table'>
+  <thead>
+    <tr>
+      <th>Recently Created Syllogisms</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @syllogisms.each do |syllogism| %>
+
+
+      <tr>
+        <td><%= link_to syllogism.title, syllogism %></td>
+<!-- 
+        <td><%= link_to 'Edit', edit_syllogism_path(syllogism) %></td>
+        <td><%= link_to 'Destroy', syllogism, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+ -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

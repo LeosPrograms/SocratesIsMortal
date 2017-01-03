@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>  <%= @syllogism.title %> </strong>
+</p>
+
+<p id="author">
+  by <em> <%= @syllogism.author %> </em>
+</p>
+
+<p>
+  <h4>If you agree with the following:</h4>
+  
+  <% syllogisms = JSON.parse(@syllogism.premises) %>
+  <% syllogisms.each do |premise| %>
+    <% if premise[0]=="4576" %>
+    <p> <%= "the statement \"#{premise[2]}\" is #{premise[3]}" %> </p>
+    <% else %>
+    <p> <%= "if the statement \"#{premise[0]}\" is #{premise[1]} then the statement \"#{premise[2]}\" is #{premise[3]} "%> </p>
+    <% end %>
+  <% end %>
+
+</p>
+
+<p>
+  <strong></strong>
+  <%= @syllogism.known %>
+</p>
+
+<p>
+  <h4>Then you should agree that:</h4>
+
+  <% conclusion = JSON.parse(@syllogism.conclusion) if @syllogism.conclusion != nil %>
+  <p> <%= "the statement \"#{conclusion[0]}\" is #{conclusion[1]}" %> </p>
+
+</p>
+
+<!-- 
+<%= link_to 'Edit', edit_syllogism_path(@syllogism) %> |
+
+ -->
+<%= link_to 'Back', syllogisms_path %>
