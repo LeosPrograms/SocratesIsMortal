@@ -1,19 +1,20 @@
-<script type="text/javascript">
-//testing validity code
-var known_array = [['4576', true]]
+<script type="text/javascript">  //javascript added directly to view for quicker functionality
+
+//initial variables
 var conclusion = []
 var compacted_code = []
 var verdict = []
 var prevent_save = false
+var known_array = [['4576', true]]
 
-var to_boolean = function(string) {
+var to_boolean = function(string) {  //convert "true" and "false" to true and false
   if (string == 'true') { return true }
   else if (string == 'false') {return false}
   else {return string}
   ;
 };
 
-var not_a_copy = function(array, item, itemvalue) {
+var not_a_copy = function(array, item, itemvalue) { //check if fact already exists in known array
   var result = true
   for ( var i = 0, l = array.length; i < l; i++ ) {
     item_array = array[i]
@@ -24,17 +25,13 @@ var not_a_copy = function(array, item, itemvalue) {
   return result
 };
 
-var analyze = function(premises) {
-
+var analyze = function(premises) { //convert if/then statements into known facts
 
   for (var i = 0; i <= premises.length-1; i++) {
     var if_this = premises[i][0]
     var if_value = premises[i][1]
     var then_this = premises[i][2]
     var then_value = premises[i][3]
-
-    // alert(i)
-    // alert(premises[i])
 
     for ( var j = 0, l = known_array.length; j < l; j++ ) {
       var copy_status = not_a_copy(known_array, then_this, then_value)
@@ -45,18 +42,19 @@ var analyze = function(premises) {
   };
 };
 
-var assertion = function(premises, conclusion) {
-for (var i = 0; i < known_array.length; i++) {
-  analyze(premises)
- }; 
+var assertion = function(premises, conclusion) { //check the validity of a new statement
+known_array = [['4576', true]]
+$("#verdict").empty();
+var verdict = []
 
-  var verdict = []
+  for (var i = 0; i < known_array.length; i++) {
+    analyze(premises)
+  }; 
 
   for (var i = 0; i < known_array.length; i++) {
     if (known_array[i][0] == conclusion[0]) { verdict.push(known_array[i]) };
   };
 
-  $("#verdict").empty();
   if (verdict.length < 1) {$("#verdict").append('conclusion is undetermined')}
   else {
     $("#verdict").append('according to the following premises, the statement "' + verdict[0][0] + '"' + " is " + verdict[0][1]);
@@ -115,15 +113,11 @@ if ($('#syllogism_premises').val()!="") {
     }
   };
 };
+
 //button functionality
 $('.delete').click(function(){
   parent = $(this).parent()
   parent.remove()
-});
-
-$('.delete').click(function(){
-    parent = $(this).parent()
-    parent.remove()
 });
 
 $('#add-premise').click(function(){
@@ -190,19 +184,46 @@ $('#analyze').click(function(){ //when 'analyze' is clicked
   analyze_button()
 });
 
-$('.actions').click(function(){ 
+$('.actions').click(function(){   //upon form submission
   compile();
+  $('#syllogism_title').val($('#title').val())
+  $('#syllogism_author').val($('#author').val())
   if (!$('#syllogism_title').val()) { $('#syllogism_title').val('untitled') }; 
   if (!$('#syllogism_author').val()) { $('#syllogism_author').val('anonymous') }; 
   if (!$('#syllogism_conclusion').val()) { event.preventDefault() }; 
 
   analyze_button()
-  if (prevent_save==true) {event.preventDefault()}; 
-
-}); //upon form submission
+  if (prevent_save==true) {event.preventDefault();}; 
+});
 
 })
 </script>
+
+<!-- html -->
+<form id='titleandauthor'>
+  title: <input id='title'>
+  author: <input id='author'>
+</form>
+
+<div><p id="verdict"></p></div>
+
+<form id='syllogisms' charset="utf-8">
+
+</form>
+
+<button id='add-known'>add standalone premise</button>
+<button id='add-premise'>add if-then premise</button> <br>
+
+<br>conclusion: <input id='conclusion_1'>
+      <select id='conclusion_2' name="t/f">
+        <option value="true">is true</option>
+        <option value="false">is false</option>
+      </select><br>
+<!-- <button id='add-everyis'>new (every _ is _ )</button>
+ -->
+
+<button id='analyze'>analyze validity</button><br>
+<br><p>note: to save a syllogism, make sure your argument is valid, and that there are no empty premises</p>
 
 <!-- rails code -->
 <%= form_for(syllogism) do |f| %>
@@ -220,12 +241,12 @@ $('.actions').click(function(){
 
   <div class="field">
     <%= f.label :title %>
-    title: <%= f.text_field :title %>
+    <%= f.text_field :title %>
   </div>
 
   <div class="field">
     <%= f.label :author %>
-    author: <%= f.text_field :author %>
+    <%= f.text_field :author %>
   </div>
 
   <div class="field">
@@ -247,25 +268,3 @@ $('.actions').click(function(){
     <%= f.submit %>
   </div>
 <% end %>
-<!-- rails code ends -->
-
-<div><p id="verdict"></p></div>
-
-<form id='syllogisms' charset="utf-8">
-
-</form>
-
-<button id='add-known'>new standalone premise</button>
-<button id='add-premise'>new if/then premise</button>
-
-<br>conclusion: <input id='conclusion_1'>
-      <select id='conclusion_2' name="t/f">
-        <option value="true">is true</option>
-        <option value="false">is false</option>
-      </select><br>
-<!-- <button id='add-everyis'>new (every _ is _ )</button>
- -->
-
-<button id='analyze'>analyze validity</button><br>
-
-<p>note: to save a syllogism, make sure your argument is valid, and that there are no empty premises</p>

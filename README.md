@@ -1,24 +1,4 @@
-# README
+# Socrates Is Mortal
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This applicaiton allows users to build logical arguments, and share them with others.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

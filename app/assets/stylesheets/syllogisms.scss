@@ -6,13 +6,9 @@ div, button, select {
 	margin: 5px;
 }
 
-#syllogism_known, #syllogism_premises, #syllogism_conclusion, label {
+#syllogism_known, #syllogism_premises, #syllogism_conclusion, #syllogism_title, #syllogism_author, label {
 	display: none;
 }
-
-/*.edit_syllogism {
-	display: none;
-}*/
 
 html {
 	text-align: center;
@@ -48,4 +44,50 @@ p {
 h4 {
 	margin-top: 26px;
 	margin-bottom: 10px;
+}
+
+#syllogisms {
+	width: 800px;
+	height: auto;
+	position: relative;
+	left: 200px;
+	border: 1px solid black;
+	margin: 20px;
+}
+
+#verdict {
+	width: 300px;
+	margin: auto;
+	background-color: yellow;
+}
+
+strong {
+	color: green;
+}
+
+#about {
+	position: absolute;
+	background-color: #65ceb5;
+	border-radius: 5px;
+	padding-bottom: 10px;
+	padding-right: 0px;
+	padding-left: 20px;
+	top: 30px;
+	left: 60px;
+	width: 300px;
+	& h2 {
+		text-align: left;
+	}
+	& p{
+		margin-left: 0px;
+		text-align: left;
+	}
+}
+
+#titleandauthor {
+	line-height: 26px;
+	text-align: right;
+	width: 190px;
+	margin: auto;
+	margin-bottom: -20px;
 }
