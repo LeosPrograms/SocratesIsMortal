@@ -23,15 +23,15 @@ class SyllogismsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to syllogism_url(Syllogism.last)
   end
 
-  test "should show syllogism" do
-    get syllogism_url(@syllogism)
-    assert_response :success
-  end
+  # test "should show syllogism" do
+  #   get syllogism_url(@syllogism)
+  #   assert_response :success
+  # end
 
-  test "should get edit" do
-    get edit_syllogism_url(@syllogism)
-    assert_response :success
-  end
+  # test "should get edit" do
+  #   get edit_syllogism_url(@syllogism)
+  #   assert_response :success
+  # end
 
   test "should update syllogism" do
     patch syllogism_url(@syllogism), params: { syllogism: { author: @syllogism.author, conclusion: @syllogism.conclusion, known: @syllogism.known, premises: @syllogism.premises, title: @syllogism.title } }

@@ -19,8 +19,15 @@ html {
 	padding-top: 20px;
 }
 
-#new_syllogism {
+#new_syllogism_button {
 	text-decoration: none;
+	padding: 5px;
+	background-color: #ffd83d;
+	border-radius: 4px;
+	color: black;
+	&:hover {
+		background-color: #fcb614;
+	}
 }
 
 a {
@@ -67,12 +74,13 @@ strong {
 
 #about {
 	position: absolute;
-	background-color: #65ceb5;
+	background-color: grey; //other: #65ceb5
+	color: white;
 	border-radius: 5px;
 	padding-bottom: 10px;
 	padding-right: 0px;
 	padding-left: 20px;
-	top: 30px;
+	top: 100px;
 	left: 60px;
 	width: 300px;
 	& h2 {
@@ -90,4 +98,20 @@ strong {
 	width: 190px;
 	margin: auto;
 	margin-bottom: -20px;
+}
+
+//index listings
+td a {
+	text-decoration: none;
+	color: white;
+	background-color: black;
+	padding: 5px;
+	border-radius: 4px;
+}
+
+//title
+header {
+	top: 0px;
+	width: 100%;
+	border-bottom: 1px solid black;
 }
