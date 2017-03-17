@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+html, body {
+	background: url(ep_naturalwhite.png)
+}
+
 div, button, select {
 	margin: 5px;
 }
@@ -16,17 +20,18 @@ html {
 
 #center-table {
 	margin: auto;
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 #new_syllogism_button {
 	text-decoration: none;
 	padding: 5px;
-	background-color: #ffd83d;
+	background-color: grey; // #ffd83d
 	border-radius: 4px;
-	color: black;
+	color: white;
 	&:hover {
-		background-color: #fcb614;
+		background-color: #ffd83d; // #fcb614
+		color: black;
 	}
 }
 
@@ -35,7 +40,7 @@ a {
 
 	&:hover {
 		color: black;
-		background-color: white;
+		background-color: yellow;
 	}
 }
 
@@ -73,15 +78,17 @@ strong {
 }
 
 #about {
-	position: absolute;
-	background-color: grey; //other: #65ceb5
+	display: none;
+	position: relative;
+	background-color: grey;
 	color: white;
 	border-radius: 5px;
 	padding-bottom: 10px;
 	padding-right: 0px;
 	padding-left: 20px;
-	top: 100px;
-	left: 60px;
+	padding-top: 5px;
+	top: -360px;
+	left: 70px;
 	width: 300px;
 	& h2 {
 		text-align: left;
@@ -113,5 +120,41 @@ td a {
 header {
 	top: 0px;
 	width: 100%;
-	border-bottom: 1px solid black;
+}
+
+hr {
+	width: 30%;
+}
+
+// logo
+#crop {
+	height: 80px;
+	width: 200px;
+	overflow: hidden;
+	text-align: center;
+	margin: auto;
+}
+
+#crop img {
+	position: relative;
+	margin-top: -90px;
+	width: 240px;
+}
+
+// display about
+#how-to {
+	background-color: grey;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	padding: 5px;
+	margin-top: 10px;
+	font-size: 1em;
+	&:hover {
+		background-color: #ffd83d;
+		color: black;
+	}
+	&:focus {
+		outline: none;
+	}
 }

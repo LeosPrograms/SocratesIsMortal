@@ -9,8 +9,10 @@
   </head>
 
   <header>
-  	<h1>Socrates Is Mortal</h1>
+    <div id="crop"><%= image_tag("logo.png", :alt => "logo") %></div>
   </header>
+
+  <hr>
 
   <body <%= yield(:body_attributes) %>>
     <%= yield %>
